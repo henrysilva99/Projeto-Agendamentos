@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@mipmap/home_ic_foreground"
+        android:title="@string/menu_home_item" />
+    <item
+        android:id="@+id/explore"
+        android:icon="@mipmap/discover_ic_foreground"
+        android:title="@string/menu_explore_item" />
+    <item
+        android:id="@+id/schedule"
+        android:icon="@mipmap/calendar_ic_foreground"
+        android:title="@string/menu_schedule_item" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@mipmap/profile_ic_foreground"
+        android:title="@string/menu_profile_item" />
+</menu>
