@@ -15,12 +15,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.scheduleserviceapp.R;
 import com.example.scheduleserviceapp.adapters.ServiceAdapter;
-import com.example.scheduleserviceapp.entities.MedicalClinic;
-import com.example.scheduleserviceapp.entities.ServiceModel;
+import com.example.scheduleserviceapp.data.model.MedicalClinic;
+import com.example.scheduleserviceapp.data.model.ServiceModel;
 import com.example.scheduleserviceapp.interfaces.OnServiceClick;
 import com.squareup.picasso.Picasso;
 

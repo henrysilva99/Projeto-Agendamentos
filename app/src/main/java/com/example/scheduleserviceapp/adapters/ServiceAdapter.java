@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.scheduleserviceapp.R;
-import com.example.scheduleserviceapp.entities.ServiceModel;
+import com.example.scheduleserviceapp.data.model.ServiceModel;
 import com.example.scheduleserviceapp.interfaces.OnServiceClick;
 import com.example.scheduleserviceapp.viewholders.ServiceViewHolder;
 

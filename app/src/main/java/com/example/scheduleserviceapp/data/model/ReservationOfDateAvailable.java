@@ -1,4 +1,4 @@
-package com.example.scheduleserviceapp.entities;
+package com.example.scheduleserviceapp.data.model;
 
 public class ReservationOfDateAvailable {
     private final int id;

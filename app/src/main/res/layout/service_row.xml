@@ -24,10 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/backgroundColorAccent"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/service_price_rv"
+            style="@style/TextViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />

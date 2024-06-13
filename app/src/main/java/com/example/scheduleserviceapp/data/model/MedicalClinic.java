@@ -1,4 +1,4 @@
-package com.example.scheduleserviceapp.entities;
+package com.example.scheduleserviceapp.data.model;
 
 import java.io.Serializable;
 

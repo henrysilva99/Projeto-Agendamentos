@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 
 import com.example.scheduleserviceapp.R;
-import com.example.scheduleserviceapp.entities.ReservationOfDateAvailable;
-import com.example.scheduleserviceapp.entities.ServiceModel;
+import com.example.scheduleserviceapp.data.model.ReservationOfDateAvailable;
+import com.example.scheduleserviceapp.data.model.ServiceModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 

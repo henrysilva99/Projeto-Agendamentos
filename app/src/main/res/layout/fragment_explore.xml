@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
-    tools:context=".ui.fragments.HomeFragment">
+    tools:context=".ui.fragments.HomeFragment"
+    android:background="@color/backgroundColor">
 
 
     <TextView
@@ -47,6 +47,8 @@
         android:inputType="text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:textColor="@color/secondary"
+        android:textColorHint="@color/textColor"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

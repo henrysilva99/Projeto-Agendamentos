@@ -15,19 +15,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.example.scheduleserviceapp.data.network.client.ApiService;
+import com.example.scheduleserviceapp.data.network.client.RetrofitClient;
+import com.example.scheduleserviceapp.data.network.client.model.AddressModel;
 import com.example.scheduleserviceapp.ui.activities.ClinicServicesDetailActivity;
 import com.example.scheduleserviceapp.R;
 import com.example.scheduleserviceapp.adapters.ExploreAdapter;
-import com.example.scheduleserviceapp.entities.MedicalClinic;
+import com.example.scheduleserviceapp.data.model.MedicalClinic;
 import com.example.scheduleserviceapp.interfaces.OnPlaceClick;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ExploreFragment extends Fragment {
     private RecyclerView recyclerExplore;
     private ExploreAdapter adapter;
     private OnPlaceClick listener;
+
+    final List<String> clinicNames = Arrays.asList("Clínica Vitta", "Clínica Médica Nova Itaim", "Clínica Carvalho de Oliveira", "Clínica Sua Consulta Goiânia", "Clínica Doutor Pop");
+    final List<String> clinicUrlImages = Arrays.asList("https://drpauloribeiroortopedista.com.br/wp-content/uploads/2021/04/Vitta-01.jpeg", "https://clinicanovaitaim.com.br/images/unidades-itaim.jpg", "https://znarquitetos.com.br/projetos/16008_Interior-em-Clinica-Medica-03/img/ZN-16008-02-clinica-fachada-02.jpg", "https://www.panoramago.com.br/images/noticias/165/8af942fe909bfced5991db81a7672beb.jpeg", "https://static.wixstatic.com/media/26df46_72459b9266e2482aa56504d0daf1422d~mv2.jpg/v1/fit/w_2500,h_1330,al_c/26df46_72459b9266e2482aa56504d0daf1422d~mv2.jpg");
+
+    int iterator = 0;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -39,8 +54,7 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listener = new OnPlaceClick() {
             @Override
             public void onClick(final MedicalClinic medicalClinic, int position) {
@@ -56,21 +70,40 @@ public class ExploreFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                configureRecyclerView(inflater.getContext(), v);
+                getAddressesData(inflater.getContext(), v);
             }
         }, 500);
 
         return v;
     }
 
-    private void configureRecyclerView(final Context context, final View v) {
+    void getAddressesData(final Context context, final View v) {
         ArrayList<MedicalClinic> clinics = new ArrayList<>();
-        clinics.add(new MedicalClinic(1, "Clínica Vitta", "R. dos Pinheiros, 498 - Conj.81", "(11) 2309-4590", "https://drpauloribeiroortopedista.com.br/wp-content/uploads/2021/04/Vitta-01.jpeg"));
-        clinics.add(new MedicalClinic(2, "Clínica Médica Nova Itaim", "R. Valente de Novais, 51 - Itaim Paulista, São Paulo", "(11) 3678-4949", "https://clinicanovaitaim.com.br/images/unidades-itaim.jpg"));
-        clinics.add(new MedicalClinic(3, "Clínica Carvalho de Oliveira", "Av. Brasil, 1500 • Jardins - São Paulo", "(11) 0000-0000", "https://znarquitetos.com.br/projetos/16008_Interior-em-Clinica-Medica-03/img/ZN-16008-02-clinica-fachada-02.jpg"));
-        clinics.add(new MedicalClinic(4, "Clínica Sua Consulta Goiânia", "R. C-244, 114 - Jardim América, Goiânia - GO", "(62) 99158-0217", "https://www.panoramago.com.br/images/noticias/165/8af942fe909bfced5991db81a7672beb.jpeg"));
-        clinics.add(new MedicalClinic(5, "Clínica Doutor Pop", "Av. Imirim, 1864 - São Paulo, SP", "(011) 2208-2244", "https://static.wixstatic.com/media/26df46_72459b9266e2482aa56504d0daf1422d~mv2.jpg/v1/fit/w_2500,h_1330,al_c/26df46_72459b9266e2482aa56504d0daf1422d~mv2.jpg"));
+        iterator = 0;
 
+        ApiService methods = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<AddressModel> call = methods.getAllAddress();
+        call.enqueue(new Callback<AddressModel>() {
+            @Override
+            public void onResponse(Call<AddressModel> call, Response<AddressModel> response) {
+
+                for (AddressModel.ResultsModel obj : response.body().getResults()) {
+                    clinics.add(new MedicalClinic(iterator + 1, clinicNames.get(iterator), obj.getLocation().getStreet().getName() + ", " + obj.getLocation().getStreet().getNumber() + " • " + obj.getLocation().getCity() + " - " + obj.getLocation().getState(), obj.getPhone(), clinicUrlImages.get(iterator)));
+                    iterator++;
+                }
+
+                configureRecyclerView(context, v, clinics);
+
+            }
+
+            @Override
+            public void onFailure(Call<AddressModel> call, Throwable t) {
+                Toast.makeText(context, "An error has occured", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void configureRecyclerView(final Context context, final View v, final ArrayList<MedicalClinic> clinics) {
         recyclerExplore = v.findViewById(R.id.rvExplore);
         recyclerExplore.setHasFixedSize(true);
 
